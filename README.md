@@ -51,7 +51,7 @@ The pipeline operates on a **Modern Data Stack**, fully hosted on the cloud. The
 
 ![Airbyte Sync](assets/airbyte_sync_preview.png)
 
-#### 2. Orchestration & Scheduling (New!)
+#### 2. Orchestration & Scheduling
 * **Automation:** The entire pipeline is scheduled via **dbt Cloud Jobs** to run daily at 07:00 AM.
 * **Monitoring:** Automatic alerts are triggered via email/Slack if any job fails.
 
