@@ -38,7 +38,7 @@ SELECT
     latitude,
     longitude,
     
-    -- Review Scores (ใช้ค่าเฉลี่ยทั้งหมด)
+    -- Review Scores
     number_of_reviews,
     review_scores_rating,
     review_scores_accuracy,

@@ -14,8 +14,6 @@ models:
         tests:
           - unique
           - not_null
-      
-      # 👇 เพิ่มคอลัมน์นี้เพื่อให้เห็นคำอธิบายเรื่อง Masking
       - name: host_name
         description: "Name of the host. (Masked with '*********' for non-admin roles via Dynamic Data Masking)"
 

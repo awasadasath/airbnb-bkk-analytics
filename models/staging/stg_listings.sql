@@ -18,12 +18,12 @@ renamed AS (
         
         CAST(accommodates AS INT) AS accommodates,
         
-        -- แก้ทศนิยม: แปลงเป็น INT เพื่อตัด .0000 ออก
+        -- แปลงเป็น INT เพื่อตัด .0000 ออก
         CAST(COALESCE(bedrooms, 0) AS INT) AS bedrooms,
         CAST(COALESCE(beds, 0) AS INT) AS beds,
         
         -- Logic แยกห้องน้ำ
-        bathrooms_text, -- เก็บไว้ตรวจสอบความถูกต้อง (ยังไม่ Drop ในชั้นนี้)
+        bathrooms_text,
         
         CASE 
             WHEN bathrooms_text ILIKE '%half-bath%' THEN 0.5

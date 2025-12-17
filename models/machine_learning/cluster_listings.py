@@ -35,5 +35,5 @@ def model(dbt, session):
     df['PCA_Y'] = pca_components[:, 1]
 
     # 6. Return Result
-    # ส่งคืนคอลัมน์ที่จำเป็น + ผลลัพธ์ PCA
+    # ส่งคืนคอลัมน์ + ผลลัพธ์ PCA
     return df[['LISTING_ID', 'PRICE', 'ROOM_TYPE', 'CLUSTER_LABEL', 'PCA_X', 'PCA_Y']]

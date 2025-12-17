@@ -14,7 +14,7 @@ renamed AS (
         -- แปลง Text เป็น Date
         CAST(source.date AS DATE) AS date,
         
-        -- Logic ราคา: ใช้ราคาจากปฏิทิน ถ้าไม่มีให้ใช้ราคามาตรฐานจาก listing
+        -- Logic : ใช้ราคาจากปฏิทิน ถ้าไม่มีให้ใช้ราคามาตรฐานจาก listing
         COALESCE(
             {{ clean_price('source.price') }}, 
             listings.listing_price
