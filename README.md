@@ -72,10 +72,10 @@ The project leverages industry-standard tools for Data Engineering and Machine L
 | **Cloud Storage** | ![AWS S3](https://img.shields.io/badge/AWS%20S3-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white) | Acts as the Data Lake storing raw CSV files (Listings, Calendar, Reviews). |
 | **Ingestion** | ![Airbyte](https://img.shields.io/badge/Airbyte-655CFC?style=for-the-badge&logo=airbyte&logoColor=white) | Open-source ELT tool used to sync data from S3 to Snowflake. |
 | **Data Warehouse** | ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white) | Scalable Cloud Data Warehouse handling Raw, Staging, and Mart layers. |
-| **Transformation** | ![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white) | Handles data modeling, testing, and documentation (dbt Core + dbt Cloud). |
+| **Transformation** | ![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white) | Handles data modeling, testing, and documentation (dbt Cloud). |
 | **Language** | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) | Used for Machine Learning models (Scikit-learn, XGBoost) running in Snowflake. |
 | **GenAI** | ![Cortex](https://img.shields.io/badge/Snowflake_Cortex-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white) | Snowflake's managed LLM service for Sentiment Analysis. |
-| **Orchestration** | ![dbt Cloud](https://img.shields.io/badge/dbt_Cloud-FF694B?style=for-the-badge&logo=dbt&logoColor=white) | Schedules daily jobs and manages CI/CD workflows. |
+| **Orchestration** | ![dbt Cloud](https://img.shields.io/badge/dbt_Cloud-FF694B?style=for-the-badge&logo=dbt&logoColor=white) | Schedules daily jobs |
 | **Visualization** | ![Snowsight](https://img.shields.io/badge/Snowsight-29B5E8?style=for-the-badge) | Native Snowflake dashboards for monitoring metrics and ML results. |
 
 ---
