@@ -47,15 +47,14 @@ The pipeline operates on a **Modern Data Stack**, fully hosted on the cloud. The
 #### 1. Data Ingestion (EL)
 * **Source:** Raw Airbnb data (`Listings`, `Calendar`, `Reviews`) is stored in **AWS S3**.
 * **Ingestion:** **Airbyte** connects to the S3 bucket and syncs data into **Snowflake** (`RAW` Schema).
-* **Frequency:** Automated daily jobs.
+* **Execution:** Manual Trigger
+* **Sync Mode:** Full Refresh - Overwrite
 
 ![Airbyte Sync](assets/airbyte_sync_preview.png)
 
 #### 2. Orchestration & Scheduling
 * **Automation:** The entire pipeline is scheduled via **dbt Cloud Jobs** to run daily at 07:00 AM.
 * **Monitoring:** Automatic alerts are triggered via email/Slack if any job fails.
-* **Execution:** Manual Trigger
-* **Sync Mode:** Full Refresh - Overwrite
 > **Production Deployment:** Daily automated runs ensure data freshness without manual intervention.
 ![Scheduled Jobs](assets/dbt_jobs_preview.png)
 
