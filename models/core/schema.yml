@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  # ===================================================================
+  # 1. Dimension Table: dim_listings
+  # ===================================================================
+  - name: dim_listings
+    description: "Dimension table containing stable and qualitative attributes of each listing, used for joining with Fact Tables."
+    config:
+      materialized: table
+    columns:
+      - name: listing_id
+        description: "Primary Key (PK) for each individual listing."
+        tests:
+          - unique
+          - not_null
+      
+      # 👇 เพิ่มคอลัมน์นี้เพื่อให้เห็นคำอธิบายเรื่อง Masking
+      - name: host_name
+        description: "Name of the host. (Masked with '*********' for non-admin roles via Dynamic Data Masking)"
+
+      - name: host_id
+        description: "Foreign Key (FK) linking to Host data."
+      - name: base_price
+        description: "The static base price of the listing (at the time of the last scrape)."
+      - name: accommodates
+        description: "The number of guests the listing can accommodate."
+      - name: neighbourhood_name
+        description: "The name of the cleansed neighborhood/district where the listing is located."
+      - name: review_scores_rating
+        description: "The overall average review score for this listing."
+      
+      - name: host_is_superhost
+        description: "The Superhost status of the property owner (TRUE/FALSE)."
+        tests:
+          - accepted_values:
+              values: ['TRUE', 'FALSE'] 
+              
+      - name: room_type
+        description: "The type of room or property (e.g., Entire home/apt)."
+        tests:
+          - accepted_values:
+              values: ['Entire home/apt', 'Private room', 'Shared room', 'Hotel room']
+
+      - name: bathrooms
+        description: "The number of bathrooms (numeric, derived from BATHROOMS_TEXT)."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0" 
+      - name: bedrooms
+        description: "The number of bedrooms (numeric)."
+        
+  # ===================================================================
+  # 2. Fact Table: fct_reviews
+  # ===================================================================
+  - name: fct_reviews
+    description: "Fact table recording individual review transactions, used for sentiment and service performance analysis."
+    columns:
+      - name: review_id
+        description: "Primary Key (PK) for each review entry."
+        tests:
+          - unique
+          - not_null
+      - name: listing_id
+        description: "Foreign Key (FK) linking to dim_listings."
+        tests:
+          - relationships:
+              to: ref('dim_listings')
+              field: listing_id
+      - name: review_date
+        description: "The date the review was written."
+        tests:
+          - not_null
+      - name: review_age_days
+        description: "The age of the review in days (calculated from review date to current date)."
+
+  # ===================================================================
+  # 3. Fact Table: fct_daily_activity
+  # ===================================================================
+  - name: fct_daily_activity
+    description: "Granular Fact table recording daily price and availability status for all listings."
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "minimum_nights <= maximum_nights"
+          
+    columns:
+      - name: listing_id
+        description: "Foreign Key (FK) linking to dim_listings."
+        tests:
+          - relationships:
+              to: ref('dim_listings')
+              field: listing_id
+      - name: activity_date
+        description: "The date the price/availability status is effective."
+      - name: host_id
+        description: "Foreign Key (FK) linking to Host data (via dim_listings)."
+      - name: price
+        description: "The nightly price on that specific date."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0" 
+      - name: is_available
+        description: "The availability status for that specific date (TRUE/FALSE)."
+      - name: minimum_nights
+        description: "The minimum number of nights required for booking on that specific date."

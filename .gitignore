@@ -1,0 +1,31 @@
+# --- dbt Defaults ---
+target/
+dbt_packages/
+dbt_modules/ 
+logs/
+profiles.yml
+.env
+.vscode/
+*.swp
+
+# --- Python ---
+# กันไฟล์ขยะที่ Python สร้างขึ้นตอนรัน script
+__pycache__/
+*.py[cod]
+*$py.class
+
+# กัน Virtual Environment (folder ที่ลง library ไว้ในเครื่องตัวเอง)
+venv/
+.venv/
+env/
+
+# --- Data Files ---
+*.csv
+*.gz
+*.zip
+
+!seeds/*.csv
+
+# --- System Files ---
+.DS_Store
+Thumbs.db

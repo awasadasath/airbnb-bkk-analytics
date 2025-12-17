@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  # ===================================================================
+  # 1. Staging Table: stg_listings
+  # ===================================================================
+  - name: stg_listings
+    description: "Cleaned and prepared data from the raw listings file."
+    columns:
+      - name: listing_id
+        description: "Primary Key for listings."
+        tests:
+          - unique
+          - not_null # ห้ามมีค่าว่าง
+      - name: host_id
+        description: "ID of the host."
+        tests:
+          - not_null # ทุกห้องต้องมีเจ้าของ
+
+  # ===================================================================
+  # 2. Staging Table: stg_reviews
+  # ===================================================================
+  - name: stg_reviews
+    description: "Cleaned and prepared data from the raw reviews file."
+    columns:
+      - name: review_id
+        description: "Primary Key for reviews."
+        tests:
+          - unique
+          - not_null
+      - name: listing_id
+        description: "Foreign Key to the listing."
+        tests:
+          - not_null # ทุกรีวิวต้องเชื่อมโยงไปที่ห้องพักได้
+
+  # ===================================================================
+  # 3. Staging Table: stg_calendar
+  # ===================================================================
+  - name: stg_calendar
+    description: "Cleaned and prepared data from the raw calendar file."
+    columns:
+      - name: listing_id
+        description: "Foreign Key to the listing."
+        tests:
+          - not_null
+      - name: date
+        description: "The date of the price/availability status."
+        tests:
+          - not_null
+      - name: price
+        description: "The price on that date."
+        tests:
+          - not_null

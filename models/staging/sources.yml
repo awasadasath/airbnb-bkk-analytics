@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: airbnb
+    database: AIRBNB_BKK
+    schema: RAW
+    tables:
+      - name: listings
+        identifier: LISTINGS
+      - name: reviews
+        identifier: REVIEWS
+      - name: calendar
+        identifier: CALENDAR
