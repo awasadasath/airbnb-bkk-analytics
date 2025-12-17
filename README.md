@@ -39,7 +39,7 @@ The goal is to ingest raw Airbnb data for Bangkok, transform it into a clean ana
 The pipeline operates on a **Modern Data Stack**, fully hosted on the cloud. The workflow is designed to be modular, scalable, and automated.
 
 <p align="center">
-  <img src="assets/architecture_diagram.png" alt="System Architecture" width="800"/>
+  <img src="assets/architecture_diagram.png" alt="System Architecture" width="850"/>
 </p>
 
 ### 🔄 End-to-End Data Flow
@@ -51,17 +51,28 @@ The pipeline operates on a **Modern Data Stack**, fully hosted on the cloud. The
 
 ![Airbyte Sync](assets/airbyte_sync_preview.png)
 
-#### 2. Data Transformation (dbt)
-Data is transformed through a layered architecture within Snowflake, orchestrated by dbt:
-* **Staging Layer:** Cleans raw data (regex parsing, deduplication, currency casting).
-* **Core Layer:** Joins tables into a **Star Schema** (`dim_listings`, `fct_reviews`, `fct_daily_activity`).
-* **Marts Layer:** Aggregates metrics for reporting (e.g., `agg_daily_neighborhood`).
+#### 2. Orchestration & Scheduling (New!)
+* **Automation:** The entire pipeline is scheduled via **dbt Cloud Jobs** to run daily at 07:00 AM.
+* **Monitoring:** Automatic alerts are triggered via email/Slack if any job fails.
 
-> **Data Lineage:** The diagram below illustrates the dependency graph of our dbt models.
+> **Production Deployment:** Daily automated runs ensure data freshness without manual intervention.
+![Scheduled Jobs](assets/dbt_jobs_preview.png)
+
+#### 3. Data Storage (Snowflake)
+* **Raw Layer:** Stores unprocessed JSON/CSV data loaded by Airbyte.
+* **Analytics Layer:** Organized into `Staging`, `Core`, and `Marts` schemas for efficient querying.
+
+#### 4. Data Transformation (dbt)
+Data is transformed through a layered architecture, orchestrated by **dbt Cloud**:
+* **Staging:** Cleans raw data (regex parsing, deduplication, currency casting).
+* **Core:** Joins tables into a **Star Schema** (`dim_listings`, `fct_reviews`, `fct_daily_activity`).
+* **Marts:** Aggregates metrics for reporting.
+
+> **Data Lineage:** The diagram below illustrates the dependency graph of our dbt models, including Python ML nodes.
 ![dbt Lineage](assets/dbt_lineage.png)
 
-#### 3. Machine Learning & AI
-* **Environment:** Python scripts run natively on **Snowflake Compute** (via Snowpark/Python Worksheets).
+#### 5. Machine Learning & AI
+* **Environment:** Python logic is defined in **dbt Python models**, running natively on **Snowflake Compute** (via Snowpark).
 * **Integration:** ML outputs (Predictions, Clusters, Anomalies) are written back as tables in the warehouse, ready for analysis.
 
 ## 🛠 3. Tech Stack & Tools
