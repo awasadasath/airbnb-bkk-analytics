@@ -54,7 +54,8 @@ The pipeline operates on a **Modern Data Stack**, fully hosted on the cloud. The
 #### 2. Orchestration & Scheduling
 * **Automation:** The entire pipeline is scheduled via **dbt Cloud Jobs** to run daily at 07:00 AM.
 * **Monitoring:** Automatic alerts are triggered via email/Slack if any job fails.
-
+* **Execution:** Manual Trigger
+* **Sync Mode:** Full Refresh - Overwrite
 > **Production Deployment:** Daily automated runs ensure data freshness without manual intervention.
 ![Scheduled Jobs](assets/dbt_jobs_preview.png)
 
