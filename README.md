@@ -164,7 +164,7 @@ I structured the data pipeline using the **Medallion Architecture**, moving data
 *The final layer. Data here is modeled and ready for dashboards.*
 - **Star Schema:** Built the central **Fact tables** (`fct_reviews`, `fct_daily_activity`) and **Dimension tables** (`dim_listings`) to make queries fast and efficient.
 - **Tracking History:** Implemented **SCD Type 2** snapshots. This lets us "time travel" to see how listing prices or host statuses changed in the past.
-- **Business Metrics:** Aggregated data from `fct_daily_activity` to calculate key metrics like **Occupancy Rate** and **Average Daily Rate (ADR)** by neighborhood.
+- **Business Metrics:** Aggregated data from `fct_daily_activity` to calculate key metrics like **Occupancy Rate** and **Average Daily Price** by neighborhood.
 
 ## 🤖 6. Machine Learning & GenAI Integration
 Python-based ML models are integrated directly into the pipeline, running on **Snowflake Compute** (via Snowpark). This avoids external data movement.
