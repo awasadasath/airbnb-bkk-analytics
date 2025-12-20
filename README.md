@@ -49,6 +49,7 @@ The pipeline operates on a cloud-native **Modern Data Stack**, designed for scal
 
 #### 1. Data Ingestion (EL)
 * **Source:** Raw Airbnb data (`Listings`, `Calendar`, `Reviews`) stored in **AWS S3**.
+![AWS Source](assets/aws_source.png)
 * **Ingestion:** **Airbyte** connects to S3 and syncs data into **Snowflake** (`RAW` Schema).
 * **Execution:** Manual Trigger
 * **Sync Mode:** Full Refresh - Overwrite
@@ -64,6 +65,7 @@ The pipeline operates on a cloud-native **Modern Data Stack**, designed for scal
 #### 3. Data Storage (Snowflake)
 * **Raw Layer:** JSON/CSV data loaded by Airbyte.
 * **Analytics Layer:** Organized into `Staging`, `Core`, and `Marts` schemas.
+![Snowflake Storage](assets/snowflake_storage.png)
 
 #### 4. Data Transformation (dbt)
 Orchestrated by **dbt Cloud** using a layered approach:
