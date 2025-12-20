@@ -145,40 +145,26 @@ Tables are linked via `listing_id`, forming the base for the Star Schema.
 
 ---
 
-### 5.2 Transformation Layers (dbt)
-The dbt project follows a structured architecture:
+## 5.2 Transformation Layers (dbt)
 
-#### 🥉 Bronze Layer (Staging)
-Handles data cleaning, type casting, and naming conventions.
+I structured the data pipeline using the **Medallion Architecture**, moving data through three stages to ensure quality and trust.
 
-* **Complex Text Parsing:** Using SQL Regex to extract numeric values from unstructured `bathrooms_text`.
-> **Code Spotlight:** Regex logic in `stg_listings.sql`.
-![Regex Logic](assets/code_regex_bathrooms.png)
+### 🥉 Bronze Layer (Raw Data)
+*Where raw data lands and stays untouched.*
+- **Ingestion:** Raw CSV and JSON files from **AWS S3** are loaded directly here via **Airbyte**.
+- **Immutable:** I keep this layer 100% original (no edits). If anything breaks downstream, I can always rebuild from this exact point.
 
-* **Reusable Macros:** `clean_price` macro to handle currency symbols (`$`, `,`) consistently across models.
-> **Macro Usage:**
-![Macro Usage](assets/code_macro_clean_price.png)
+### 🥈 Silver Layer (Staging & Cleaning)
+*The cleanup zone. This is where raw data gets fixed and standardized.*
+- **Parsing Messy Text:** Used **SQL Regex** in `stg_listings` to extract actual numbers from unstructured text fields like `bathrooms_text`.
+- **Custom Macros:** Built a `clean_price` macro to automatically strip currency symbols (`$`, `,`) and fix data types across all models.
+- **Preparation:** Standardized everything (handling NULLs, casting types) so the data is clean before joining.
 
----
-
-#### 🥈 Silver Layer (Core & Snapshots)
-Builds the Dimensional Model and tracks history.
-
-* **Star Schema:** Conformed Dimensions (`dim_listings`) and Facts (`fct_reviews`, `fct_daily_activity`).
-![Star Schema](assets/star_schema_diagram.png)
-
-* **SCD Type 2 Snapshots:** Tracking changes in listing prices and host status over time.
-> **Historical Tracking:**
-![Snapshot Logic](assets/snapshot_preview.png)
-
----
-
-#### 🥇 Gold Layer (Marts)
-Aggregated tables optimized for BI.
-
-* **Aggregated Metrics:** Pre-calculated KPIs like daily average price and occupancy rate per district.
-> **Analytics-Ready Data:**
-![Aggregated Data Preview](assets/mart_data_preview.png)
+### 🥇 Gold Layer (Marts & Serving)
+*The final layer. Data here is modeled and ready for dashboards.*
+- **Star Schema:** Built the central **Fact tables** (`fct_reviews`, `fct_daily_activity`) and **Dimension tables** (`dim_listings`) to make queries fast and efficient.
+- **Tracking History:** Implemented **SCD Type 2** snapshots. This lets us "time travel" to see how listing prices or host statuses changed in the past.
+- **Business Metrics:** Aggregated data from `fct_daily_activity` to calculate key metrics like **Occupancy Rate** and **Average Daily Rate (ADR)** by neighborhood.
 
 ## 🤖 6. Machine Learning & GenAI Integration
 Python-based ML models are integrated directly into the pipeline, running on **Snowflake Compute** (via Snowpark). This avoids external data movement.
