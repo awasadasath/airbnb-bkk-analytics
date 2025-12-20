@@ -28,9 +28,6 @@ An End-to-End ELT pipeline built to analyze the Airbnb market in Bangkok. This p
 Instead of standard reporting, this project focuses on solving real-world data challenges: handling unstructured text/currency, enforcing **Data Governance** (PII masking), and running **Machine Learning & GenAI** directly within the Data Warehouse.
 
 ### 🎯 Key Objectives
-Instead of standard reporting, this project focuses on solving real-world data challenges: handling unstructured text/currency, enforcing **Data Governance** (PII masking), and running **Advanced Analytics** (ML/GenAI) directly within the Data Warehouse.
-
-### 🎯 Key Objectives
 * **Automated Orchestration:** Daily syncs and transformation jobs scheduled via **dbt Cloud**.
 * **Data Transformation:** Modular Data Warehouse (Star Schema) with **SCD Type 2** snapshots for historical tracking.
 * **Predictive Modeling:** **XGBoost Regression** to predict fair listing prices based on room features.
@@ -78,7 +75,7 @@ Orchestrated by **dbt Cloud** using a layered approach:
 
 #### 5. Machine Learning & AI
 * **Environment:** Python logic defined in **dbt Python models**, running natively on **Snowflake Compute** (via Snowpark).
-* **Integration:** ML outputs (Predictions, Clusters) are materialized as tables in the warehouse.
+* **Integration:** ML outputs (Predictions, Clusters, Isolation) are materialized as tables in the warehouse.
 
 ## 🛠 3. Tech Stack & Tools
 
@@ -191,13 +188,13 @@ Python-based ML models are integrated directly into the pipeline, running on **S
 * **Model:** K-Means (k=4) with PCA.
 * **Implementation:** `models/machine_learning/cluster_listings.py`
 
-> **Visual Insight:** PCA plot showing 4 distinct clusters (Budget to High-End).
+> **Visual Insight:** PCA plot showing 4 distinct clusters.
 ![Cluster PCA Plot](assets/ml_cluster_plot.png)
 
 ---
 
 ### 6.2 Price Prediction (XGBoost)
-* **Objective:** Estimate "Fair Price" based on amenities and location.
+* **Objective:** Estimate "Fair Price" based on reviews and location type.
 * **Model:** XGBoost Regressor.
 * **Implementation:** `models/machine_learning/predict_price.py`
 
@@ -228,6 +225,7 @@ SELECT
     SNOWFLAKE.CORTEX.SENTIMENT(review_text) AS sentiment_score
 FROM reviews
 ```
+![Sentiment Analysis](assets/sentiment_analysis.png)
 **Output**: Positive/negative sentiment scores (-1 to +1).
 
 ## 🛡 7. Data Governance & Quality
@@ -240,7 +238,7 @@ We employ **dbt tests** to validate data integrity at every stage.
 * **Custom Tests:** Domain-specific logic to catch edge cases.
     * *Example:* `assert_no_future_reviews.sql` ensures no reviews have dates in the future.
 
-> **Quality Assurance:** Over 50 automated tests passed successfully.
+> **Quality Assurance:** All automated tests passed successfully.
 ![dbt Test Results](assets/test_results_pass.png)
 
 ---
@@ -278,7 +276,7 @@ High-level summary of the Bangkok market supply.
 
 ### 🛏️ 8.2 Product & Price Analysis
 Focuses on inventory distribution and pricing strategy.
-* **Room Type vs. Price:** Comparison of Hotel/Entire Home vs. Shared rooms.
+* **Room Type vs. Price:** Comparison of Entire Home/apt, Shared rooms, Private room and Hotel.
 * **Statistical Summary:** Benchmark rates (Min/Max/Avg) to aid pricing decisions.
 ![Product & Price Dashboard](assets/product_and_price_dashboard.png)
 
@@ -308,5 +306,5 @@ dbt run       # Execute all models (SQL & Python)
 Ensuring data integrity immediately after execution.
 
 ```bash
-dbt test      # Run 50+ automated tests (Unique, Not Null, Custom Logic)
+dbt test      # Run automated tests (Unique, Not Null, Custom Logic)
 ```
