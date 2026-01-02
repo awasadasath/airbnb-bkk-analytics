@@ -55,20 +55,19 @@ The pipeline operates on a cloud-native **Modern Data Stack**, designed for scal
 
 #### 2. Orchestration & Scheduling
 * **Automation:** Pipeline scheduled via **dbt Cloud Jobs** (Daily at 07:00 AM).
-* **Monitoring:** Automatic alerts via email/Slack on failure.
 > **Production Deployment:** Ensures data freshness without manual intervention.
 ![Scheduled Jobs](assets/dbt_jobs_preview.png)
 
 #### 3. Data Storage (Snowflake)
 * **Raw Layer:** JSON/CSV data loaded by Airbyte.
-* **Analytics Layer:** Organized into `Staging`, `Core`, and `Marts` schemas.
+* **Analytics Layer:** Organized into `Raw`, `Staging`, and `Core` schemas.
 ![Snowflake Storage](assets/snowflake_storage.png)
 
 #### 4. Data Transformation (dbt)
 Orchestrated by **dbt Cloud** using a layered approach:
-* **Staging:** Cleaning (Regex parsing, deduplication, casting).
-* **Core:** **Star Schema** modeling (`dim_listings`, `fct_reviews`, `fct_daily_activity`).
-* **Marts:** Aggregated metrics for reporting.
+* **Raw:** Defined sources pointing to immutable Airbyte-loaded data.
+* **Staging:** Cleaning (Regex parsing, deduplication, casting) and standardization.
+* **Core (Marts):** Star Schema modeling (`dim_listings`, `fct_reviews`, `fct_daily_activity`) and aggregated metrics for reporting.
 
 > **Data Lineage:** Dependency graph including SQL and Python ML nodes.
 ![dbt Lineage](assets/dbt_lineage.png)
