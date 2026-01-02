@@ -28,12 +28,12 @@ An End-to-End ELT pipeline built to analyze the Airbnb market in Bangkok. This p
 Instead of standard reporting, this project focuses on solving real-world data challenges: handling unstructured text/currency, enforcing **Data Governance** (PII masking), and running **Machine Learning & GenAI** directly within the Data Warehouse.
 
 ### 🎯 Key Objectives
-* **Automated Orchestration:** Syncs and daily transformation jobs scheduled via **dbt Cloud**.
-* **Data Transformation:** Modular Data Warehouse (Star Schema) with **SCD Type 2** snapshots for historical tracking.
-* **Predictive Modeling:** **XGBoost Regression** to predict fair listing prices based on room features.
-* **Advanced Analytics:** **K-Means Clustering** for market segmentation and **Isolation Forest** for price anomaly detection.
-* **GenAI Integration:** **Snowflake Cortex** for Sentiment Analysis on guest reviews.
-* **Governance & Resilience:** Enforced data quality via **Automated Schema & Custom Tests**, protected PII with **Dynamic Masking**, and ensured disaster recovery capability using **Snowflake Time Travel**.
+* **Automated Orchestration:** End-to-end pipeline scheduled via **dbt Cloud** with daily data syncs and transformation jobs.
+* **Data Transformation:** Modular **Star Schema** modeling with **SCD Type 2** snapshots to track historical changes in listings and prices.
+* **Predictive Modeling:** In-database **XGBoost Regression** to estimate fair listing prices based on property features.
+* **Advanced Analytics:** **K-Means Clustering** for market segmentation and **Isolation Forest** for detecting pricing anomalies.
+* **GenAI Integration:** **Snowflake Cortex** (LLM) to perform Sentiment Analysis on guest reviews.
+* **Governance & Resilience:** Enforced data integrity via **Automated Tests** (Schema validation & Business Logic checks like `price > 0`), secured PII with role-based **Dynamic Masking**, and ensured recoverability via **Snowflake Time Travel**.
 
 ## 🏗 2. Architecture & Workflow
 The pipeline operates on a cloud-native **Modern Data Stack**, designed for scalability and modularity.
