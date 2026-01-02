@@ -1,9 +1,7 @@
 version: 2
 
 models:
-  # ===================================================================
   # 1. Dimension Table: dim_listings
-  # ===================================================================
   - name: dim_listings
     description: "Dimension table containing stable and qualitative attributes of each listing, used for joining with Fact Tables."
     config:
@@ -49,9 +47,7 @@ models:
       - name: bedrooms
         description: "The number of bedrooms (numeric)."
         
-  # ===================================================================
   # 2. Fact Table: fct_reviews
-  # ===================================================================
   - name: fct_reviews
     description: "Fact table recording individual review transactions, used for sentiment and service performance analysis."
     columns:
@@ -73,9 +69,7 @@ models:
       - name: review_age_days
         description: "The age of the review in days (calculated from review date to current date)."
 
-  # ===================================================================
   # 3. Fact Table: fct_daily_activity
-  # ===================================================================
   - name: fct_daily_activity
     description: "Granular Fact table recording daily price and availability status for all listings."
     tests:

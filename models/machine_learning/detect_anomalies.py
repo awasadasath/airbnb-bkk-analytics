@@ -17,7 +17,7 @@ def model(dbt, session):
     # One-Hot Encoding
     X = pd.get_dummies(df[numerical_cols + categorical_cols], columns=categorical_cols)
 
-    # Train (contamination=0.01 หาตัวแปลก 1%)
+    # Train (contamination=0.01)
     iso = IsolationForest(contamination=0.01, n_estimators=100, random_state=42)
     
     df['IS_ANOMALY'] = iso.fit_predict(X)
