@@ -28,7 +28,7 @@ An End-to-End ELT pipeline built to analyze the Airbnb market in Bangkok. This p
 Instead of standard reporting, this project focuses on solving real-world data challenges: handling unstructured text/currency, enforcing **Data Governance** (PII masking), and running **Machine Learning & GenAI** directly within the Data Warehouse.
 
 ### 🎯 Key Objectives
-* **Automated Orchestration:** Daily syncs and transformation jobs scheduled via **dbt Cloud**.
+* **Automated Orchestration:** Syncs and daily transformation jobs scheduled via **dbt Cloud**.
 * **Data Transformation:** Modular Data Warehouse (Star Schema) with **SCD Type 2** snapshots for historical tracking.
 * **Predictive Modeling:** **XGBoost Regression** to predict fair listing prices based on room features.
 * **Advanced Analytics:** **K-Means Clustering** for market segmentation and **Isolation Forest** for price anomaly detection.
