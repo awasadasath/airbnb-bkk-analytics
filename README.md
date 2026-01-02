@@ -194,7 +194,7 @@ Python-based ML models are integrated directly into the pipeline, running on **S
 * **Implementation:** `models/machine_learning/detect_anomalies.py`
 
 > **Detected Outliers:** Listings with extreme pricing anomalies.
-![Anomaly Table](assets/ml_anomaly_table.png)
+![Anomaly Table](assets/ml_anomaly.png)
 
 ---
 
