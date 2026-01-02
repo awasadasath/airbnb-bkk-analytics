@@ -39,7 +39,7 @@ Instead of standard reporting, this project focuses on solving real-world data c
 The pipeline operates on a cloud-native **Modern Data Stack**, designed for scalability and modularity.
 
 <p align="center">
-  <img src="assets/architecture_diagram.png" alt="System Architecture" width="850"/>
+  <img src="assets/architecture.png" alt="System Architecture" width="850"/>
 </p>
 
 ### 🔄 End-to-End Data Flow
