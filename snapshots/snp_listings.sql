@@ -16,7 +16,7 @@
     )
 }}
 
--- เลือกข้อมูลจาก Staging ที่สะอาดแล้ว
+-- เลือกข้อมูลจาก Staging ที่ clean แล้ว
 SELECT * FROM {{ ref('stg_listings') }}
 
 {% endsnapshot %}

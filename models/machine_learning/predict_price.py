@@ -18,7 +18,7 @@ def model(dbt, session):
     df[numerical_cols] = df[numerical_cols].fillna(0)
     df = df.dropna(subset=[target])
 
-    # 3. One-Hot Encoding (แปลงตัวหนังสือเป็นตัวเลข)
+    # 3. One-Hot Encoding
     df_processed = pd.get_dummies(df[numerical_cols + categorical_cols], columns=categorical_cols, drop_first=True, dummy_na=False)
     
     # Handle columns names to avoid errors with special characters

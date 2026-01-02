@@ -4,11 +4,11 @@
 ) }}
 
 WITH reviews AS (
-    -- 1. ดึงข้อมูลรีวิวที่สะอาดแล้วจาก Staging
+    -- 1. ดึงข้อมูลรีวิวที่ clean แล้วจาก Staging
     SELECT 
         review_id, 
         listing_id, 
-        review_date, -- ถูก CAST เป็น DATE แล้วจาก stg_reviews
+        review_date,
         reviewer_id,
         reviewer_name, 
         review_text 
@@ -16,11 +16,11 @@ WITH reviews AS (
 ),
 
 listings AS (
-    -- 2. ดึงข้อมูล Dimension ที่จำเป็นจาก Listings
+    -- 2. ดึงข้อมูล Dimension จาก Listings
     SELECT 
         listing_id, 
         host_id,
-        host_since, -- วันที่ Host เริ่มทำงาน (Host Dimension)
+        host_since,
         neighbourhood_name
     FROM {{ ref('stg_listings') }}
 )
@@ -30,13 +30,13 @@ SELECT
     r.review_id,
     r.listing_id,
     r.reviewer_id,
-    l.host_id,  -- เพิ่ม Host ID เข้ามาเพื่อวิเคราะห์ Host Performance
+    l.host_id, 
 
     -- Date & Time
     r.review_date,
     
     -- Metrics
-    -- คำนวณอายุของรีวิว: กี่วันมาแล้วนับจากวันนี้
+    -- คำนวณอายุของรีวิว: กี่วันจากวันนี้
     DATEDIFF('day', r.review_date, CURRENT_DATE()) AS review_age_days,
     
     -- Dimension Attributes

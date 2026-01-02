@@ -35,7 +35,7 @@ SELECT
     -- Location Dimension Attribute
     l.neighbourhood_name,
     
-    -- Metrics (หัวใจของการวิเคราะห์การเงิน)
+    -- Metrics
     c.price,
     c.is_available,
     

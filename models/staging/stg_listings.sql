@@ -22,7 +22,7 @@ renamed AS (
         CAST(COALESCE(bedrooms, 0) AS INT) AS bedrooms,
         CAST(COALESCE(beds, 0) AS INT) AS beds,
         
-        -- Logic แยกห้องน้ำ
+        -- แยกห้องน้ำ
         bathrooms_text,
         
         CASE 
