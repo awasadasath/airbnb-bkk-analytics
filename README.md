@@ -141,7 +141,8 @@ Tables are linked via `listing_id`, forming the base for the Star Schema.
 * **Tool:** Airbyte
 * **Source:** AWS S3 (Daily CSV.gz)
 * **Destination:** Snowflake `RAW` schema
-
+> **Data Lake (S3):** Raw data is stored in `.csv.gz` format, ready for Airbyte ingestion.
+![S3 Bucket Files](assets/aws_s3_files.png)
 ---
 
 ## 5.2 Transformation Layers (dbt)
