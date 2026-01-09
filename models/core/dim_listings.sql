@@ -2,7 +2,7 @@
   config(
     materialized = 'table',
     schema='core',
-    post_hook = "ALTER TABLE {{ this }} MODIFY COLUMN host_name SET MASKING POLICY {{ target.schema }}.host_mask"
+    post_hook = "ALTER TABLE {{ this }} MODIFY COLUMN host_name SET MASKING POLICY AIRBNB_BKK.DBT_AWASADASATH.HOST_MASK"
   )
 }}
 

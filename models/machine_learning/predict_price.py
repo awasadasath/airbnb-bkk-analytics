@@ -1,5 +1,6 @@
 import pandas as pd
 from xgboost import XGBRegressor
+from sklearn.model_selection import train_test_split
 
 def model(dbt, session):
     dbt.config(
@@ -27,11 +28,13 @@ def model(dbt, session):
     # 4. Train
     X = df_processed
     y = df[target]
-    
-    model = XGBRegressor(n_estimators=100, learning_rate=0.1, random_state=42)
-    model.fit(X, y)
 
-    # Predict
+    # แบ่งข้อมูล: Train 80%, Test 20%
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    model = XGBRegressor(n_estimators=100, learning_rate=0.1, random_state=42)
+    model.fit(X_train, y_train)
+
     df['PREDICTED_PRICE'] = model.predict(X)
 
     return df[['LISTING_ID', 'PRICE', 'PREDICTED_PRICE']]
