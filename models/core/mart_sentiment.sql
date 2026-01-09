@@ -8,10 +8,10 @@ WITH reviews AS (
         listing_id,
         review_date,
         review_text 
-    FROM {{ ref('stg_reviews') }} 
+    FROM {{ ref('fct_reviews') }} 
     WHERE review_text IS NOT NULL
     ORDER BY review_date DESC
-    LIMIT 100 
+    LIMIT 100
 )
 
 SELECT
