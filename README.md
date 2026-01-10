@@ -141,7 +141,8 @@ Tables are linked via `listing_id`, forming the base for the Star Schema.
 * **Tool:** Airbyte
 * **Source:** AWS S3 (Daily CSV.gz)
 * **Destination:** Snowflake `RAW` schema
-
+> **Data Lake (S3):** Raw data is stored in `.csv.gz` format, ready for Airbyte ingestion.
+![S3 Bucket Files](assets/aws_s3_files.png)
 ---
 
 ## 5.2 Transformation Layers (dbt)
@@ -166,9 +167,9 @@ I structured the data pipeline using the **Medallion Architecture**, moving data
 - **Business Metrics:** Aggregated data from `fct_daily_activity` to calculate key metrics like **Occupancy Rate** and **Average Daily Price** by neighborhood.
 
 ## 🤖 6. Machine Learning & GenAI Integration
-Python-based ML models are integrated directly into the pipeline, running on **Snowflake Compute** (via Snowpark). This avoids external data movement.
+Python-based ML models are integrated directly into the pipeline, running on **Snowflake Compute** (via Snowpark), while **Snowflake Cortex** handles LLM-based tasks.
 
-### 6.1 Market Segmentation (K-Means Clustering)
+### 6.1 🧩 Market Segmentation (K-Means Clustering)
 * **Objective:** Group listings to understand supply patterns.
 * **Model:** K-Means (k=4) with PCA.
 * **Implementation:** `models/machine_learning/cluster_listings.py`
@@ -178,7 +179,7 @@ Python-based ML models are integrated directly into the pipeline, running on **S
 
 ---
 
-### 6.2 Price Prediction (XGBoost)
+### 6.2 📉 Price Prediction (XGBoost)
 * **Objective:** Estimate "Fair Price" based on reviews and location type.
 * **Model:** XGBoost Regressor.
 * **Implementation:** `models/machine_learning/predict_price.py`
@@ -188,7 +189,7 @@ Python-based ML models are integrated directly into the pipeline, running on **S
 
 ---
 
-### 6.3 Anomaly Detection (Isolation Forest)
+### 6.3 🚨 Anomaly Detection (Isolation Forest)
 * **Objective:** Flag potential pricing errors or fraud (e.g., > 1M THB).
 * **Model:** Isolation Forest (Contamination = 1%).
 * **Implementation:** `models/machine_learning/detect_anomalies.py`
@@ -198,20 +199,33 @@ Python-based ML models are integrated directly into the pipeline, running on **S
 
 ---
 
-### 6.4 Sentiment Analysis (Snowflake Cortex)
-* **Objective:** Analyze sentiment of textual reviews beyond star ratings.
-* **Tech:** **Snowflake Cortex** (LLM).
-* **Implementation:** `models/core/mart_sentiment.sql`
+### 6.4 🧠 GenAI Powered Insights (Snowflake Cortex)
+Leveraging **Snowflake Cortex (Serverless LLM)** to unlock insights from unstructured text directly within the Data Warehouse.
 
-**SQL Logic Spotlight:**
-```sql
-SELECT
-    review_text,
-    SNOWFLAKE.CORTEX.SENTIMENT(review_text) AS sentiment_score
-FROM reviews
-```
-![Sentiment Analysis](assets/sentiment_analysis.png)
-**Output**: Positive/negative sentiment scores (-1 to +1).
+#### 🎭 AI-Powered "Vibe" Classifier
+**Problem:** Standard room types don't capture the *atmosphere* of a listing.
+**Solution:** Utilized **`CORTEX.COMPLETE` (Mistral-7b)** to classify descriptions into 4 categories: **Luxury, Local Vibe, Modern, or Budget**.
+
+> **SQL Logic:**
+> ```sql
+> SNOWFLAKE.CORTEX.COMPLETE('mistral-7b', 'Classify this description into: Luxury, Local Vibe...')
+> ```
+
+**📸 Query Result:**
+> *Screenshot showing the generated 'listing_vibe' column.*
+![Vibe Classifier Result](assets/cortex_vibe_result.png)
+
+#### 💬 Multilingual Sentiment Analysis
+**Problem:** Reviews are in mixed languages (Thai, Chinese, English).
+**Solution:** A two-step process using **`CORTEX.TRANSLATE`** followed by **`CORTEX.SENTIMENT`**.
+
+| Review (Original) | Step 1: Translate | Step 2: Score |
+| :--- | :--- | :--- |
+| "ห้องสวยมาก" 🇹🇭 | "Very beautiful room" | **0.85 (Positive)** |
+
+**📸 Query Result:**
+> *Comparison of original text, translated text, and sentiment score.*
+![Sentiment Analysis Result](assets/cortex_sentiment_result.png)
 
 ## 🛡 7. Data Governance & Quality
 Reliability and security are built into the pipeline to ensure trust and compliance.
