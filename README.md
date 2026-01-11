@@ -234,7 +234,7 @@ We employ **dbt tests** to validate data integrity at every stage.
     * *Example:* `assert_no_future_reviews.sql` ensures no reviews have dates in the future.
 
 > **Quality Assurance:** All automated tests passed successfully.
-![dbt Test Results](assets/test_results_pass.png)
+![dbt Test Results](assets/test_results_pass.gif)
 
 ---
 
