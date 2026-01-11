@@ -131,10 +131,6 @@ The raw data contains over **70+ columns** with mixed types (JSON-like strings, 
 | **Reviews** | `reviews.csv.gz` | **Unstructured Data.** `comments` field used for **Sentiment Analysis**. |
 | **Seeds** | `neighborhoods.csv` | **Static Reference.** Curated list of Bangkok districts. |
 
-### 🔗 Entity Relationships (Raw Layer)
-Tables are linked via `listing_id`, forming the base for the Star Schema.
-![Raw ER Diagram](assets/raw_er_diagram.png)
-
 ## 🔄 5. Data Pipeline Implementation
 
 ### 5.1 Ingestion (Extract & Load)
