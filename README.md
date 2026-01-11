@@ -305,6 +305,9 @@ dbt deps      # Install dependencies (dbt_utils)
 dbt seed      # Load static neighborhood data
 dbt run       # Execute all models (SQL & Python)
 ```
+> **⚡️ See it in action:**
+>
+> ![dbt Run Demo](assets/dbt_run_demo.gif)
 
 ### 2️⃣ Validation (Test)
 Ensuring data integrity immediately after execution.
