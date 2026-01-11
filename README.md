@@ -242,10 +242,19 @@ We employ **dbt tests** to validate data integrity at every stage.
 Implemented **Snowflake Dynamic Masking Policies** to comply with PDPA/GDPR standards.
 
 * **Policy:** `host_mask`
-* **Logic:** The `ANALYST` role sees obscured data (`***MASKED***`), while authorized roles see actual host names.
+* **Logic:** The `ANALYST` and `ACCOUNTADMIN` role sees obscured data (`***MASKED***`), while authorized roles see actual host names.
 
 **Implementation:**
-![Masking Code](assets/code_masking_policy.png)
+```sql
+CREATE OR REPLACE MASKING POLICY AIRBNB_BKK.DBT_AWASADASATH.HOST_MASK AS (val string) returns string ->
+  CASE
+    WHEN current_role() IN ('ACCOUNTADMIN', 'SYSADMIN') THEN val
+    ELSE '***MASKED***'
+  END;
+
+GRANT APPLY ON MASKING POLICY AIRBNB_BKK.DBT_AWASADASATH.HOST_MASK TO ROLE ACCOUNTADMIN;
+GRANT APPLY ON MASKING POLICY AIRBNB_BKK.DBT_AWASADASATH.HOST_MASK TO ROLE SYSADMIN;
+```
 
 > **Security in Action:** Screenshot showing PII masking for unauthorized roles.
 ![Masked Data Preview](assets/security_masked_data.png)
